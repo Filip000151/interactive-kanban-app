@@ -1,9 +1,11 @@
-import { useState, type FC, type ReactNode } from "react";
+import { useEffect, useState, type FC, type ReactNode } from "react";
 import type { InputState, Task } from "./types";
 import { TasksContext } from "./context";
 
+
+
 const TasksProvider: FC<{children: ReactNode}> = ({children}) => {
-  const [tasks, setTasks] = useState<Task[]>([
+  const [tasks, setTasks] = useState<Task[]>(JSON.parse(localStorage.getItem('tasks')!) || [
     {
       id: crypto.randomUUID(),
       title: 'Learn React',
@@ -26,6 +28,7 @@ const TasksProvider: FC<{children: ReactNode}> = ({children}) => {
       order: 3
     }
   ]);
+
   const addTask = (inputState: InputState) => {
     setTasks(prev => [...prev, {
       id: crypto.randomUUID(),
@@ -43,7 +46,11 @@ const TasksProvider: FC<{children: ReactNode}> = ({children}) => {
   }
   const deleteTask = (id: string) => {
     setTasks(prev => prev.filter(task => task.id !== id));
-  }
+  };
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
   return (
     <TasksContext.Provider value={{tasks, setTasks, addTask, editTask, deleteTask}}>
       {children}
