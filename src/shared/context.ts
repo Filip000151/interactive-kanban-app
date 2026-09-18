@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { InputAction, InputState, ModalType } from "./types";
+import type { InputAction, InputState, ModalType, Task } from "./types";
 
 type ModalContextType = {
   modalOpen: ModalType;
@@ -10,3 +10,13 @@ type ModalContextType = {
 };
 
 export const ModalContext = createContext<ModalContextType | null>(null);
+
+type TasksContextType = {
+  tasks: Task[];
+  setTasks: (tasks: Task[]) => void;
+  addTask: (inputState: InputState) => void;
+  editTask: (id: string, inputState: InputState) => void;
+  deleteTask: (id: string) => void;
+};
+
+export const TasksContext = createContext<TasksContextType | null>(null);

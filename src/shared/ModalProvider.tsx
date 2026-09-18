@@ -8,6 +8,10 @@ const reducer = (state: InputState, action: InputAction) => {
       return {...state, titleInput: action.value};
     case 'setDescription':
       return {...state, descriptionInput: action.value};
+    case 'setInputs':
+      return action.value;
+    case 'clear':
+      return {descriptionInput: '', titleInput: ''};
     default:
       return state;
   }
@@ -18,7 +22,7 @@ const ModalProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [inputState, inputDispatch] = useReducer(reducer, { titleInput: '', descriptionInput: '' });
   const closeModal = () => {
     setModalOpen(null);
-
+    inputDispatch({type: 'clear'});
   }
   return (
     <ModalContext.Provider value={{ modalOpen, setModalOpen, closeModal, inputState, inputDispatch }}>

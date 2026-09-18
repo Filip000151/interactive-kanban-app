@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import type { Status, Task } from "../shared/types";
+import Card from "./Card";
 
 type ColumnProps = {
   type: Status;
@@ -39,9 +40,12 @@ const Column: FC<ColumnProps> = ({ type, tasks }) => {
       <h2 className={`text-3xl font-bold ${config.color} ${config.accent} w-full p-4 text-center`}>{config.label}</h2>
       <div className="flex flex-col items-center mt-10 gap-5 p-4 min-h-120">
         {tasks.map(task => (
-          <div key={task.id} className={`w-40 text-center ${config.accent} shadow-lg p-4 rounded select-none ${config.color} font-semibold`}>
-            {task.title}
-          </div>
+          <Card 
+            key={task.id} 
+            task={task} 
+            bg={config.accent} 
+            color={config.color} 
+          />
         ))}
       </div>
     </div>

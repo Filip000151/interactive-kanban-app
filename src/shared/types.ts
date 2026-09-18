@@ -8,7 +8,7 @@ export type Task = {
 
 export type Status = 'toDo' | 'inProgress' | 'done';
 
-export type ModalType = 'addTask' | null;
+export type ModalType = string | null;
 
 export type InputState = {
   titleInput: string;
@@ -18,4 +18,9 @@ export type InputState = {
 export type InputAction = {
   type: 'setTitle' | 'setDescription';
   value: string;
-}
+} | {
+  type: 'clear';
+} | {
+  type: 'setInputs';
+  value: InputState;
+};
