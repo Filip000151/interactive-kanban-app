@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import type { Status, Task } from "../shared/types";
 import Card from "./Card";
+import { AnimatePresence, motion } from "motion/react";
 
 type ColumnProps = {
   type: Status;
@@ -36,19 +37,27 @@ const columnConfig: Record<Status, {
 const Column: FC<ColumnProps> = ({ type, tasks }) => {
   const config = columnConfig[type];
   return (
-    <div className={`rounded-lg ${config.bg} w-100 shadow gap-5 overflow-hidden`}>
+    <motion.div
+      initial={{scale: 0}}
+      animate={{scale: 1}}
+      className={`rounded-lg ${config.bg} w-100 shadow gap-5 overflow-hidden`}
+    >
       <h2 className={`text-3xl font-bold ${config.color} ${config.accent} w-full p-4 text-center`}>{config.label}</h2>
-      <div className="flex flex-col items-center mt-10 gap-5 p-4 min-h-120">
-        {tasks.map(task => (
-          <Card 
-            key={task.id} 
-            task={task} 
-            bg={config.accent} 
-            color={config.color} 
-          />
-        ))}
+      <div
+        className="flex flex-col items-center mt-10 gap-5 p-4 min-h-120"
+      >
+        <AnimatePresence mode="popLayout">
+          {tasks.map(task => (
+            <Card
+              key={task.id}
+              task={task}
+              bg={config.accent}
+              color={config.color}
+            />
+          ))}
+        </AnimatePresence>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

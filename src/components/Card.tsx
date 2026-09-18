@@ -4,6 +4,7 @@ import { useModal, useTasks } from "../shared/hooks";
 import Modal from "./Modal";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { motion } from "motion/react";
 
 type CardProps = {
   task: Task;
@@ -11,18 +12,38 @@ type CardProps = {
   color: string;
 };
 
+const cardVariants = {
+  hidden: {
+    scale: 0,
+    opacity: 0
+  },
+  visible: {
+    scale: [1, 1.1, 1],
+    opacity: 1
+  },
+  remove: {
+    scale: 0,
+    opacity: 0
+  }
+}
+
 const Card: FC<CardProps> = ({ task, bg, color }) => {
   const { modalOpen, setModalOpen, inputDispatch, inputState, closeModal } = useModal();
   const {editTask, deleteTask} = useTasks();
   return (
     <>
-      <div
+      <motion.div
+        layout
+        variants={cardVariants}
+        initial='hidden'
+        animate='visible'
+        exit='remove'
         onClick={() => setModalOpen(task.id)}
         key={task.id}
         className={`w-40 text-center ${bg} shadow-lg p-4 rounded select-none ${color} font-semibold`}
       >
         {task.title}
-      </div>
+      </motion.div>
       {modalOpen === task.id && (
         <Modal bg={bg} color={color}>
           <h2 className="font-bold text-2xl my-5">{task.title}</h2>
