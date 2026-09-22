@@ -20,10 +20,6 @@ const cardVariants = {
   visible: {
     scale: [1, 1.1, 1],
     opacity: 1
-  },
-  remove: {
-    scale: 0,
-    opacity: 0
   }
 }
 
@@ -77,7 +73,7 @@ const Card: FC<CardProps> = ({ task, bg, color }) => {
 
     if (dropIndicator) {
       let keepIndicator = false;
-      for (const [_, el] of Object.entries(columnRefs)) {
+      for (const el of Object.values(columnRefs)) {
         if (checkIfPointOver(info.point, el.current!)) keepIndicator = true;
       }
 
@@ -111,8 +107,8 @@ const Card: FC<CardProps> = ({ task, bg, color }) => {
     else
       targetIndex = targetColumnTasks.length;
 
-    setDraggedTaskId(null);
     setDropIndicator(null);
+    setDraggedTaskId(null);
     moveTask(task.id, targetColumn.status, targetIndex);
   };
   return (
@@ -122,7 +118,6 @@ const Card: FC<CardProps> = ({ task, bg, color }) => {
         variants={cardVariants}
         initial='hidden'
         animate='visible'
-        exit='remove'
         drag
         dragListener={false}
         dragMomentum={false}
@@ -131,10 +126,9 @@ const Card: FC<CardProps> = ({ task, bg, color }) => {
         onDrag={handleDrag}
         onDragEnd={handleDragEnd}
         dragSnapToOrigin
-        dragElastic={false}
         whileDrag={{ scale: 1.05, rotate: 5, pointerEvents: 'none', zIndex: 100 }}
         onClick={() => setModalOpen(task.id)}
-        className={`w-40 text-center bg-${bg} shadow-lg p-4 rounded select-none text-${color} font-semibold`}
+        className={`w-40 text-center ${bg} shadow-lg p-4 rounded select-none ${color} font-semibold`}
         ref={(el) => {
           if (el) cardRefs.current.set(task.id, el);
         }}
@@ -152,7 +146,7 @@ const Card: FC<CardProps> = ({ task, bg, color }) => {
       </motion.div>
 
       {modalOpen === task.id && (
-        <Modal bg={`bg-${bg}`} color={`text-$color}`}>
+        <Modal bg={bg} color={color}>
           <h2 className="font-bold text-2xl my-5">{task.title}</h2>
           <p className="text-lg mb-4">{task.description}</p>
           <div className="flex justify-end gap-3">
@@ -168,7 +162,7 @@ const Card: FC<CardProps> = ({ task, bg, color }) => {
         </Modal>
       )}
       {modalOpen === `edit-${task.id}` && (
-        <Modal bg={`bg-${bg}`} color={`text-$color}`}>
+        <Modal bg={bg} color={color}>
           <h2 className="w-full text-center text-3xl font-semibold mt-5 mb-10">Edit Task</h2>
           <input
             value={inputState.titleInput}
@@ -190,7 +184,7 @@ const Card: FC<CardProps> = ({ task, bg, color }) => {
                 closeModal();
               }}
               className="bg-green-700 px-4 py-2 rounded text-white"
-            >Add</button>
+            >Edit</button>
           </div>
         </Modal>
       )}

@@ -12,27 +12,27 @@ type ColumnProps = {
 
 const columnConfig: Record<Status, {
   label: string;
-  primaryColor: string;
-  secondaryColor: string;
+  bg: string;
   accent: string;
+  color: string;
 }> = {
   toDo: {
     label: 'To Do',
-    primaryColor: 'slate-100',
-    secondaryColor: 'slate-400',
-    accent: 'slate-800'
+    bg: 'bg-slate-100',
+    accent: 'bg-slate-400',
+    color: 'text-slate-800'
   },
   inProgress: {
     label: 'In Progress',
-    primaryColor: 'blue-100',
-    secondaryColor: 'blue-400',
-    accent: 'blue-800'
+    bg: 'bg-blue-100',
+    accent: 'bg-blue-400',
+    color: 'text-blue-800'
   },
   done: {
     label: 'Done',
-    primaryColor: 'green-100',
-    secondaryColor: 'green-400',
-    accent: 'green-800'
+    bg: 'bg-green-100',
+    accent: 'bg-green-400',
+    color: 'text-green-800'
   }
 };
 
@@ -43,10 +43,10 @@ const Column: FC<ColumnProps> = ({ type, tasks, columnRef }) => {
     <motion.div
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
-      className={`relative rounded-lg bg-${config.primaryColor} w-100 shadow gap-5`}
+      className={`relative rounded-lg ${config.bg} w-100 shadow gap-5`}
       ref={columnRef}
     >
-      <h2 className={`text-3xl font-bold text-${config.accent} bg-${config.secondaryColor} w-full p-4 text-center rounded-t-lg select-none`}>{config.label}</h2>
+      <h2 className={`text-3xl font-bold ${config.color} ${config.accent} w-full p-4 text-center rounded-t-lg select-none`}>{config.label}</h2>
       <div
         className="flex flex-col items-center mt-10 gap-5 p-4 min-h-120"
 
@@ -64,8 +64,8 @@ const Column: FC<ColumnProps> = ({ type, tasks, columnRef }) => {
               )}
               <Card
                 task={task}
-                bg={config.secondaryColor}
-                color={config.accent}
+                bg={config.accent}
+                color={config.color}
               />
               {(dropIndicator?.id === task.id && dropIndicator.position === 'after') && (
                 <motion.div 
