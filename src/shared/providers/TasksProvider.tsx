@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState, type FC, type ReactNode } from "react";
-import type { InputState, Task } from "./types";
-import { TasksContext } from "./context";
+import { useEffect, useState, type FC, type ReactNode } from "react";
+import type { InputState, Status, Task } from "../types";
+import { TasksContext } from "../context";
+import { useDrag } from "../hooks";
 
 
 
@@ -28,36 +29,53 @@ const TasksProvider: FC<{children: ReactNode}> = ({children}) => {
       order: 3
     }
   ]);
-  const columnRefs = {
-    toDo: useRef(null),
-    inProgress: useRef(null),
-    done: useRef(null)
-  };
+
+  const {cardRefs} = useDrag();
+
+  const normalizeOrder = (tasks: Task[]) => {
+    const byColumn: Record<Status, Task[]> = {
+      toDo: [],
+      inProgress: [],
+      done: []
+    };
+    tasks.forEach(t => byColumn[t.status].push(t));
+
+    const result: Task[] = [];
+
+    (Object.keys(byColumn) as Status[]).forEach(col => {
+      byColumn[col]
+        .sort((a, b) => a.order - b.order)
+        .forEach((t, i) => result.push({...t, order: i}));
+    });
+
+    return result;
+  }
 
   const addTask = (inputState: InputState) => {
-    setTasks(prev => [...prev, {
+    setTasks(prev => normalizeOrder([...prev, {
       id: crypto.randomUUID(),
       title: inputState.titleInput,
       description: inputState.descriptionInput,
       status: 'toDo',
       order: prev.length
-    }]);
+    }]));
   };
   const editTask = (id: string, inputState: InputState) => {
-    setTasks(prev => prev.map(
+    setTasks(prev => normalizeOrder(prev.map(
       task => task.id === id 
       ? {...task, title: inputState.titleInput, description: inputState.descriptionInput} 
-      : task));
+      : task)));
   }
   const deleteTask = (id: string) => {
-    setTasks(prev => prev.filter(task => task.id !== id));
+    cardRefs.current.delete(id);
+    setTasks(prev => normalizeOrder(prev.filter(task => task.id !== id)));
   };
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
   return (
-    <TasksContext.Provider value={{tasks, columnRefs, setTasks, addTask, editTask, deleteTask}}>
+    <TasksContext.Provider value={{tasks, setTasks, addTask, editTask, deleteTask, normalizeOrder}}>
       {children}
     </TasksContext.Provider>
   )

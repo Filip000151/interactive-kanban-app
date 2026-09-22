@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { ModalContext, TasksContext } from "./context";
+import { DragContext, ModalContext, TasksContext } from "./context";
 
 export const useModal = () => {
   const context = useContext(ModalContext);
@@ -16,6 +16,16 @@ export const useTasks = () => {
 
   if(!context){
     throw new Error('useTasks hook must be used within a TasksProvider.');
+  }
+
+  return context;
+}
+
+export const useDrag = () => {
+  const context = useContext(DragContext);
+
+  if(!context){
+    throw new Error('useDrag hook must be used within a DragProvider.');
   }
 
   return context;

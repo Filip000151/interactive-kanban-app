@@ -1,6 +1,6 @@
 import { useReducer, useState, type FC, type ReactNode } from "react"
-import type { InputAction, InputState, ModalType } from "./types"
-import { ModalContext } from "./context";
+import type { InputAction, InputState, ModalType } from "../types"
+import { ModalContext } from "../context";
 
 const reducer = (state: InputState, action: InputAction) => {
   switch (action.type) {

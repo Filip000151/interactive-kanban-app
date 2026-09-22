@@ -1,5 +1,5 @@
 import { createContext, type Dispatch, type RefObject, type SetStateAction } from "react";
-import type { InputAction, InputState, ModalType, Status, Task } from "./types";
+import type { DropIndicator, InputAction, InputState, ModalType, Status, Task } from "./types";
 
 type ModalContextType = {
   modalOpen: ModalType;
@@ -13,11 +13,22 @@ export const ModalContext = createContext<ModalContextType | null>(null);
 
 type TasksContextType = {
   tasks: Task[];
-  columnRefs: Record<Status, RefObject<HTMLDivElement | null>>;
   setTasks: Dispatch<SetStateAction<Task[]>>;
   addTask: (inputState: InputState) => void;
   editTask: (id: string, inputState: InputState) => void;
   deleteTask: (id: string) => void;
+  normalizeOrder: (tasks: Task[]) => Task[];
 };
 
 export const TasksContext = createContext<TasksContextType | null>(null);
+
+type DragContextType = {
+  cardRefs: RefObject<Map<string, HTMLDivElement>>;
+  columnRefs: Record<Status, RefObject<HTMLDivElement | null>>;
+  dropIndicator: DropIndicator | null;
+  setDropIndicator: Dispatch<SetStateAction<DropIndicator | null>>;
+  draggedTaskId: string | null;
+  setDraggedTaskId: Dispatch<SetStateAction<string | null>>;
+};
+
+export const DragContext = createContext<DragContextType | null>(null);

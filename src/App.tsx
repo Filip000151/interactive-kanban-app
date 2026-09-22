@@ -1,14 +1,25 @@
+import { useMemo } from "react";
 import Column from "./components/Column";
 import Modal from "./components/Modal";
-import { useModal, useTasks } from "./shared/hooks";
+import { useDrag, useModal, useTasks } from "./shared/hooks";
 
 const App = () => {
   const {modalOpen, setModalOpen, inputState, inputDispatch, closeModal} = useModal();
-  const {tasks, addTask, columnRefs} = useTasks();
+  const {tasks, addTask} = useTasks();
+  const {columnRefs} = useDrag();
 
-  const toDoTasks = tasks.filter(task => task.status === 'toDo');
-  const inProgressTasks = tasks.filter(task => task.status === 'inProgress');
-  const doneTasks = tasks.filter(task => task.status === 'done');
+  const toDoTasks = useMemo(
+    () => tasks.filter(t => t.status === 'toDo').sort((a, b) => a.order - b.order),
+    [tasks]
+  );
+  const inProgressTasks = useMemo(
+    () => tasks.filter(t => t.status === 'inProgress').sort((a, b) => a.order - b.order),
+    [tasks]
+  );
+  const doneTasks = useMemo(
+    () => tasks.filter(t => t.status === 'done').sort((a, b) => a.order - b.order),
+    [tasks]
+  );
 
   return (
     <div className="bg-gray-700 min-h-screen text-gray-200 p-4 flex flex-col items-center">

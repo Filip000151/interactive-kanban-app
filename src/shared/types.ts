@@ -24,3 +24,8 @@ export type InputAction = {
   type: 'setInputs';
   value: InputState;
 };
+
+export type DropIndicator = {
+  id: string;
+  position: 'before' | 'after';
+}
