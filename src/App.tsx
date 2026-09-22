@@ -4,8 +4,7 @@ import { useModal, useTasks } from "./shared/hooks";
 
 const App = () => {
   const {modalOpen, setModalOpen, inputState, inputDispatch, closeModal} = useModal();
-  const {tasks, addTask} = useTasks();
-  
+  const {tasks, addTask, columnRefs} = useTasks();
 
   const toDoTasks = tasks.filter(task => task.status === 'toDo');
   const inProgressTasks = tasks.filter(task => task.status === 'inProgress');
@@ -49,9 +48,9 @@ const App = () => {
       )}
 
       <div className="w-400 mt-4 rounded-xl flex justify-around p-4">
-        <Column type="toDo" tasks={toDoTasks} />
-        <Column type="inProgress" tasks={inProgressTasks} />
-        <Column type="done" tasks={doneTasks} />
+        <Column columnRef={columnRefs.toDo} type="toDo" tasks={toDoTasks} />
+        <Column columnRef={columnRefs.inProgress} type="inProgress" tasks={inProgressTasks} />
+        <Column columnRef={columnRefs.done} type="done" tasks={doneTasks} />
       </div>
     </div>
   )

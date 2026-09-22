@@ -1,4 +1,4 @@
-import { useEffect, useState, type FC, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FC, type ReactNode } from "react";
 import type { InputState, Task } from "./types";
 import { TasksContext } from "./context";
 
@@ -28,6 +28,11 @@ const TasksProvider: FC<{children: ReactNode}> = ({children}) => {
       order: 3
     }
   ]);
+  const columnRefs = {
+    toDo: useRef(null),
+    inProgress: useRef(null),
+    done: useRef(null)
+  };
 
   const addTask = (inputState: InputState) => {
     setTasks(prev => [...prev, {
@@ -52,7 +57,7 @@ const TasksProvider: FC<{children: ReactNode}> = ({children}) => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
   return (
-    <TasksContext.Provider value={{tasks, setTasks, addTask, editTask, deleteTask}}>
+    <TasksContext.Provider value={{tasks, columnRefs, setTasks, addTask, editTask, deleteTask}}>
       {children}
     </TasksContext.Provider>
   )

@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { type FC, type RefObject } from "react";
 import type { Status, Task } from "../shared/types";
 import Card from "./Card";
 import { AnimatePresence, motion } from "motion/react";
@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 type ColumnProps = {
   type: Status;
   tasks: Task[];
+  columnRef: RefObject<HTMLDivElement | null>;
 }
 
 const columnConfig: Record<Status, {
@@ -34,17 +35,19 @@ const columnConfig: Record<Status, {
   }
 };
 
-const Column: FC<ColumnProps> = ({ type, tasks }) => {
+const Column: FC<ColumnProps> = ({ type, tasks, columnRef }) => {
   const config = columnConfig[type];
   return (
     <motion.div
       initial={{scale: 0}}
       animate={{scale: 1}}
       className={`rounded-lg ${config.bg} w-100 shadow gap-5 overflow-hidden`}
+      ref={columnRef}
     >
       <h2 className={`text-3xl font-bold ${config.color} ${config.accent} w-full p-4 text-center`}>{config.label}</h2>
       <div
         className="flex flex-col items-center mt-10 gap-5 p-4 min-h-120"
+        
       >
         <AnimatePresence mode="popLayout">
           {tasks.map(task => (
