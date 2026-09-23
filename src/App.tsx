@@ -26,7 +26,7 @@ const App = () => {
     <div className="bg-gray-700 min-h-screen text-gray-200 p-4 flex flex-col items-center">
       <button
         onClick={() => setModalOpen('addTask')}
-        className="bg-green-500 text-green-900 px-4 py-2 rounded font-semibold"
+        className="bg-green-500 text-green-900 px-4 py-2 rounded font-semibold cursor-pointer hover:opacity-80 transition-opacity duration-150"
       >
         Add New Task
       </button>
@@ -60,7 +60,7 @@ const App = () => {
                   addTask(inputState);
                   closeModal();
                 }}
-                className="bg-green-700 px-4 py-2 rounded text-white"
+                className="bg-green-700 px-4 py-2 rounded text-white cursor-pointer hover:opacity-80 transition-opacity duration-150"
               >Add</button>
             </div>
           </Modal>

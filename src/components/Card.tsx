@@ -118,8 +118,9 @@ const Card: FC<CardProps> = ({ task, bg, color }) => {
         onDragEnd={handleDragEnd}
         dragSnapToOrigin
         whileDrag={{ scale: 1.05, rotate: 5, pointerEvents: 'none', zIndex: 100 }}
+        whileHover={{opacity: 0.9}}
         onClick={() => setModalOpen(task.id)}
-        className={`w-40 text-center ${bg} shadow-lg p-4 rounded select-none ${color} font-semibold`}
+        className={`w-40 text-center ${bg} shadow-lg p-4 rounded select-none ${color} font-semibold cursor-pointer`}
         ref={(el) => {
           if (el) cardRefs.current.set(task.id, el);
         }}
@@ -141,11 +142,11 @@ const Card: FC<CardProps> = ({ task, bg, color }) => {
             <h2 className="font-bold text-2xl my-5">{task.title}</h2>
             <p className="text-lg mb-4">{task.description}</p>
             <div className="flex justify-end gap-3">
-              <FaEdit onClick={() => {
+              <FaEdit className="cursor-pointer hover:opacity-80 transition-opacity duration-150" onClick={() => {
                 inputDispatch({ type: 'setInputs', value: { titleInput: task.title, descriptionInput: task.description } });
                 setModalOpen(`edit-${task.id}`);
               }} size={32} />
-              <MdDelete onClick={() => {
+              <MdDelete className="cursor-pointer hover:opacity-80 transition-opacity duration-150" onClick={() => {
                 deleteTask(task.id);
                 closeModal();
               }} size={32} />
@@ -171,14 +172,14 @@ const Card: FC<CardProps> = ({ task, bg, color }) => {
             <div className="flex justify-end">
               <button
                 onClick={() => setModalOpen(task.id)}
-                className="bg-gray-700 px-4 py-2 rounded text-white mr-2"
+                className="bg-gray-700 px-4 py-2 rounded text-white mr-2 cursor-pointer hover:opacity-80 transition-opacity duration-150"
               >Back</button>
               <button
                 onClick={() => {
                   editTask(task.id, inputState);
                   closeModal();
                 }}
-                className="bg-green-700 px-4 py-2 rounded text-white"
+                className="bg-green-700 px-4 py-2 rounded text-white cursor-pointer hover:opacity-80 transition-opacity duration-150"
               >Edit</button>
             </div>
           </Modal>

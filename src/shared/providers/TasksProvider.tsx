@@ -9,24 +9,24 @@ const TasksProvider: FC<{children: ReactNode}> = ({children}) => {
   const [tasks, setTasks] = useState<Task[]>(JSON.parse(localStorage.getItem('tasks')!) || [
     {
       id: crypto.randomUUID(),
-      title: 'Learn React',
-      description: 'Make some react projects.',
+      title: 'Sample Task 1',
+      description: 'This is a sample task.',
+      status: 'toDo',
+      order: 0
+    },
+    {
+      id: crypto.randomUUID(),
+      title: 'Sample Task 2',
+      description: 'This is a sample task.',
       status: 'toDo',
       order: 1
     },
     {
       id: crypto.randomUUID(),
-      title: 'Learn Motion',
-      description: 'Practice animations with Motion library.',
-      status: 'toDo',
-      order: 2
-    },
-    {
-      id: crypto.randomUUID(),
-      title: 'Make motion project',
-      description: 'Make a kanban app.',
-      status: 'toDo',
-      order: 3
+      title: 'Sample Task 3',
+      description: 'This is a sample task.',
+      status: 'inProgress',
+      order: 0
     }
   ]);
 
