@@ -38,11 +38,12 @@ const columnConfig: Record<Status, {
 
 const Column: FC<ColumnProps> = ({ type, tasks, columnRef }) => {
   const config = columnConfig[type];
-  const {dropIndicator} = useDrag();
+  const {dropIndicator, hoveredColumn} = useDrag();
   return (
     <motion.div
+      layout='size'
       initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
+      animate={{ scale: hoveredColumn === type ? 1.05 : 1 }}
       className={`relative rounded-lg ${config.bg} w-100 shadow gap-5`}
       ref={columnRef}
     >

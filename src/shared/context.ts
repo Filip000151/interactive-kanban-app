@@ -29,6 +29,8 @@ type DragContextType = {
   setDropIndicator: Dispatch<SetStateAction<DropIndicator | null>>;
   draggedTaskId: string | null;
   setDraggedTaskId: Dispatch<SetStateAction<string | null>>;
+  hoveredColumn: Status | null;
+  setHoveredColumn: Dispatch<SetStateAction<Status | null>>;
 };
 
 export const DragContext = createContext<DragContextType | null>(null);
