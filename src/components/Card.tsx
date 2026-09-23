@@ -14,7 +14,7 @@ type CardProps = {
 
 const Card: FC<CardProps> = ({ task, bg, color }) => {
   const { modalOpen, setModalOpen, inputDispatch, inputState, closeModal } = useModal();
-  const { tasks, editTask, deleteTask, setTasks } = useTasks();
+  const { tasks, editTask, deleteTask, setTasks, normalizeOrder } = useTasks();
   const { columnRefs, cardRefs, dropIndicator, setDropIndicator, draggedTaskId, setDraggedTaskId, setHoveredColumn, hoveredColumn } = useDrag();
   const controls = useDragControls();
 
@@ -38,7 +38,8 @@ const Card: FC<CardProps> = ({ task, bg, color }) => {
 
     const finalTask = columnTasks.find(t => t.id === task.id)!;
     result.push({ ...finalTask, order: orders.get(task.id)! });
-    setTasks([...result]);
+
+    setTasks(normalizeOrder(result));
   };
 
   const handleDrag = (_: MouseEvent, info: PanInfo) => {
