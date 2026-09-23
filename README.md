@@ -21,6 +21,11 @@ A drag-and-drop Kanban board built with React, TypeScript, and Motion. Tasks can
 - **Tailwind CSS** — styling
 - **React Icons** — icons
 
+### Prerequisites
+
+- Node.js 20+
+- npm
+
 ## Run Locally
 
 ```bash
